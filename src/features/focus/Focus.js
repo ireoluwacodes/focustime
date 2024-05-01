@@ -1,17 +1,33 @@
 import { SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
 import { RoundedButton } from "../../components/RoundedButton";
+import { useState } from "react";
+import { spacing } from "../../utils/spacing";
+import { colors } from "../../utils/colors";
 
-export const Focus = () => {
+export const Focus = ({ addSubject }) => {
+  const [tmpItem, setTmpItem] = useState(null);
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>What would you like to focus on?</Text>
         <View style={styles.inputContainer}>
-          <TextInput style={styles.input} />
-          <RoundedButton style={styles.roundedButton} size={50} title="+"/>
+          <TextInput
+            style={styles.input}
+            onSubmitEditing={({ nativeEvent: { text } }) => {
+              setTmpItem(text);
+            }}
+          />
+          <RoundedButton
+            style={styles.roundedButton}
+            size={50}
+            title="+"
+            onPress={() => {
+              addSubject(tmpItem);
+            }}
+          />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -19,31 +35,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+
   titleContainer: {
     flex: 0.5,
-    padding: 16,
+    padding: spacing.lg,
     justifyContent: "center",
   },
+
   title: {
-    color: "#fff",
-    fontWeight : "bold",
-    fontSize : 40,
+    color: colors.white,
+    fontWeight: "bold",
+    fontSize: spacing.xxl,
   },
-  inputContainer:{
-    marginTop : 20,
-    flexDirection : "row",
-    gap : 20,
-    alignItems : "center",
+
+  inputContainer: {
+    marginTop: spacing.lg,
+    flexDirection: "row",
+    gap: spacing.lg,
+    alignItems: "center",
   },
-  roundedButton : {
-    alignItems : "center",
-    justifyContent  : "center",
+
+  roundedButton: {
+    alignItems: "center",
+    justifyContent: "center",
   },
+
   input: {
     flex: 1,
-    backgroundColor: "#fff",
-    height: 50,
+    backgroundColor: colors.white,
+    height: spacing.xxxl,
     borderRadius: 5,
-    padding: 12,
+    padding: spacing.sm,
   },
 });

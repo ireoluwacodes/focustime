@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "focustime",
-    "slug": "focustime",
+    "name": "focusTime",
+    "slug": "focusTime",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
