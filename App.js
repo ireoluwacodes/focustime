@@ -9,7 +9,11 @@ export default function App() {
   const [focusSubject, setFocusSubject] = useState("Don't play");
   return (
     <SafeAreaView style={styles.container}>
-      {focusSubject ? <Timer focusSubject={focusSubject}/> : <Focus addSubject={setFocusSubject} />}
+      {focusSubject ? (
+        <Timer focusSubject={focusSubject} />
+      ) : (
+        <Focus addSubject={setFocusSubject} />
+      )}
       <StatusBar style="auto" />
     </SafeAreaView>
   );
@@ -18,8 +22,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.blue , 
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: colors.blue,
   },
 });

@@ -1,20 +1,48 @@
 import React, { useState } from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { ProgressBar } from "react-native-paper";
 import { colors } from "../../utils/colors";
 import { spacing } from "../../utils/spacing";
 import { Countdown } from "../../components/Countdown";
 import { RoundedButton } from "../../components/RoundedButton";
+import { Timing } from "./Timing";
+import { useKeepAwake } from "expo-keep-awake";
 
 export const Timer = ({ focusSubject }) => {
+  useKeepAwake();
+  const [minutes, setMinutes] = useState(1);
   const [isStarted, setIsStarted] = useState(false);
+  const [progress, setProgress] = useState(1);
+  const onProgress = (progress) => {
+    setProgress(progress);
+  };
+  const changeTime = (time) => {
+    setMinutes(time);
+    setProgress(1);
+    setIsStarted(false);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.countdown}>
-        <Countdown isPaused={!isStarted} />
+        <Countdown
+          isPaused={!isStarted}
+          minutes={minutes}
+          onProgress={onProgress}
+        />
       </View>
       <View style={{ paddingTop: spacing.xxl }}>
         <Text style={styles.title}>Focusing on:</Text>
         <Text style={styles.task}>{focusSubject}</Text>
+      </View>
+      <View style={styles.progressBar}>
+        <ProgressBar
+          color={isStarted ? colors.purple : colors.aqua}
+          progress={progress}
+          style={{ height: spacing.sm }}
+        />
+      </View>
+      <View style={styles.toggle}>
+        <Timing changeTime={changeTime} />
       </View>
       <View style={styles.toggle}>
         <RoundedButton
@@ -22,11 +50,11 @@ export const Timer = ({ focusSubject }) => {
           style={{
             alignItems: "center",
             justifyContent: "center",
-            borderColor: isStarted ? colors.red : colors.green,
+            borderColor: isStarted ? colors.purple : colors.aqua,
           }}
           textStyle={{
             fontSize: spacing.lg,
-            color: isStarted ? colors.red : colors.green,
+            color: isStarted ? colors.purple : colors.aqua,
           }}
           onPress={() => setIsStarted(!isStarted)}
         />
@@ -48,6 +76,9 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: "bold",
   },
+  progressBar: {
+    margin: spacing.md,
+  },
   countdown: {
     flex: 0.5,
     justifyContent: "center",
@@ -55,6 +86,8 @@ const styles = StyleSheet.create({
   },
   toggle: {
     flex: 0.3,
+    padding: spacing.md,
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
   },
